@@ -24,8 +24,7 @@ module.exports = function (grunt) {
 
   function doRsync(cmd, user, host, remoteBase, target, files) {
     var exec = require('child_process').exec,
-        src = grunt.file.expand(files[target]),
-        dest = target;
+        src = grunt.file.expand(files[target]);
 
     cmd.push(src.join(' '));
 
@@ -40,13 +39,10 @@ module.exports = function (grunt) {
     grunt.log.ok();
   }
 
-  grunt.util = grunt.util || grunt.utils;
-
   grunt.registerMultiTask('rsync', 'Copy files to a (remote) machine with rsync.', function () {
 
     var done = this.async(),
-        files = grunt.helper('createFileMap', this.data.files),
-        
+        files = require('../lib/create-file-map')(this.data.files),
         
         // options
         dry = grunt.option('no-write'),
@@ -102,19 +98,5 @@ module.exports = function (grunt) {
     } // for in files
     done(true);
 
-  });
-
-  grunt.registerHelper('createFileMap', function (files) {
-    var map = {};
-
-    files = files instanceof Object ? files : {
-      '': files
-    };
-
-    for (var target in files) {
-
-      map[target] = files[target];
-    }
-    return map;
   });
 };

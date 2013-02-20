@@ -10,7 +10,7 @@ See also: https://github.com/jedrichards/grunt-rsync
 
 Install with: `npm install grunt-rsync-2`
 
-Inside your `grunt.js` file add :
+Inside your `Gruntfile.js` file add :
 
 ``` javascript
 grunt.loadNpmTasks('grunt-rsync-2');

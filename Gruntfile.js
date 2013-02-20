@@ -5,17 +5,17 @@ module.exports = function (grunt) {
   // Project configuration.
   grunt.initConfig({
     pkg: '<json:package.json>',
-    test: {
+    nodeunit: {
       files: ['test/**/*.js']
     },
     lint: {
       files: ['grunt.js', 'tasks/**/*.js', 'test/**/*.js']
     },
     beautify: {
-      files: '<config:lint.files>'
+      files: '<%= lint.files %>'
     },
     watch: {
-      files: '<config:lint.files>',
+      files: '<%= lint.files %>',
       tasks: 'default'
     },
     jshint: {
@@ -35,16 +35,17 @@ module.exports = function (grunt) {
       globals: {
         exports: true
       }
-    },
-
+    }
   });
 
   grunt.loadNpmTasks('grunt-beautify');
   grunt.loadNpmTasks('grunt-bump');
+  grunt.loadNpmTasks('grunt-contrib-jshint');
+  grunt.loadNpmTasks('grunt-contrib-nodeunit');
 
   // Default task.
-  grunt.registerTask('default', 'lint test');
+  grunt.registerTask('default', ['jshint', 'nodeunit']);
 
-  grunt.registerTask('tidy', 'beautify');
+  grunt.registerTask('tidy', ['beautify']);
 
 };

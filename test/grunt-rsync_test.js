@@ -1,5 +1,6 @@
 var grunt = require('grunt'),
-    rsync = require('../tasks/rsync');
+    rsync = require('../tasks/rsync'),
+    createFileMap = require('../lib/create-file-map');
 
 /*
   ======== A Handy Little Nodeunit Reference ========
@@ -30,47 +31,47 @@ exports.rsync = {
     test.equal(1, 1);
     test.done();
   },
-  'Helper#createFileMap with one flat file <string> (no map)': function (test) {
+  'createFileMap with one flat file <string> (no map)': function (test) {
     'use strict';
     test.expect(1);
 
     var files = 'a/b/c';
-    var fileMap = grunt.helper('createFileMap', files);
+    var fileMap = createFileMap(files);
 
     test.deepEqual(fileMap, {
       '': 'a/b/c'
     });
     test.done();
   },
-  'Helper#createFileMap-identity with one element map <string:string>': function (test) {
+  'createFileMap-identity with one element map <string:string>': function (test) {
     'use strict';
     test.expect(1);
 
     var files = {
       'cde/f': 'a/b/c'
     };
-    var fileMap = grunt.helper('createFileMap', files);
+    var fileMap = createFileMap(files);
 
     test.deepEqual(fileMap, {
       'cde/f': 'a/b/c'
     });
     test.done();
   },
-  'Helper#createFileMap-identity with one element map <string:[string]>': function (test) {
+  'createFileMap-identity with one element map <string:[string]>': function (test) {
     'use strict';
     test.expect(1);
 
     var files = {
       'cde/f': ['a/b/c', 'e/**/*.txt']
     };
-    var fileMap = grunt.helper('createFileMap', files);
+    var fileMap = createFileMap(files);
 
     test.deepEqual(fileMap, {
       'cde/f': ['a/b/c', 'e/**/*.txt']
     });
     test.done();
   },
-  'Helper#createFileMap-identity with multiple element map <string:[string]> | <string:string>': function (test) {
+  'createFileMap-identity with multiple element map <string:[string]> | <string:string>': function (test) {
     'use strict';
     test.expect(1);
 
@@ -79,7 +80,7 @@ exports.rsync = {
       'ddd/': 'e/f',
       'rrr/': ['hh/*.txt']
     };
-    var fileMap = grunt.helper('createFileMap', files);
+    var fileMap = createFileMap(files);
 
     test.deepEqual(fileMap, files);
     test.done();
